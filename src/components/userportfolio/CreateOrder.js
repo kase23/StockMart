@@ -3,7 +3,8 @@ import React, { Component } from "react";
 class CreateOrder extends Component {
   state = {
     stockName: "",
-    password: ""
+    password: "",
+    priceOfStock: null
   };
 
   handleChange = e => {
@@ -14,7 +15,22 @@ class CreateOrder extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
+
     console.log(this.state);
+    // try {
+    //   fetch(
+    //     "https://cloud.iexapis.com/stable/tops?token=pk_a91fd6cb299c4cacbeaa2d871b59b4ba&symbols=aapl"
+    //   )
+    //     .then(response => response.json())
+    //     .then(data => {
+    //       const price = data[0].lastSalePrice;
+    //       this.setState({
+    //         priceOfStock: price
+    //       });
+    //     });
+    // } catch (error) {
+    //   console.error(error);
+    // }
   };
 
   render() {
@@ -37,6 +53,7 @@ class CreateOrder extends Component {
             <button className="btn pink lighten-1 z-depth-0">Submit</button>
           </div>
         </form>
+        Price: {this.state.priceOfStock}
       </div>
     );
   }
