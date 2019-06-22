@@ -1,9 +1,33 @@
 import React from "react";
+import { connect } from "react-redux";
 
-// this shoule be the stansactions aggragated by name
-
-const Portfolio = () => {
-  return <div />;
+const Portfolio = props => {
+  const { transactions } = props;
+  return (
+    <>
+      Users Stocks:
+      {transactions ? (
+        transactions.map(transaction => {
+          return (
+            <tr>
+              <td>Stock Name: {transaction.stock}</td>
+              <td>Price: {transaction.price}</td>
+              <td>Qty: {transaction.quantity}</td>
+              <td>Total: {transaction.quantity}</td>
+            </tr>
+          );
+        })
+      ) : (
+        <p>Loading...</p>
+      )}
+    </>
+  );
 };
 
-export default Portfolio;
+const mapStateToProps = state => {
+  return {
+    transactions: state.orders.orders
+  };
+};
+
+export default connect(mapStateToProps)(Portfolio);

@@ -5,16 +5,13 @@ const SignedInLinks = () => {
   return (
     <ul className="right">
       <li>
-        <NavLink to="/createOrder">New Order</NavLink>
+        <NavLink to="/">Dashboard</NavLink>
       </li>
       <li>
-        <NavLink to="/">Transactions</NavLink>
+        <NavLink to="/transactions">Transactions</NavLink>
       </li>
       <li>
         <NavLink to="/">Sign Out</NavLink>
-      </li>{" "}
-      <li>
-        <NavLink to="/">User</NavLink>
       </li>
     </ul>
   );

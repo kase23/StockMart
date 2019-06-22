@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 const Transactions = props => {
   const { transactions } = props;
   return (
-    <>
+    <div className="container">
       Users Transactions:
       {transactions ? (
         transactions.map(transaction => {
@@ -20,7 +20,7 @@ const Transactions = props => {
       ) : (
         <p>Loading...</p>
       )}
-    </>
+    </div>
   );
 };
 
