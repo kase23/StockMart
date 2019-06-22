@@ -1,11 +1,15 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
+import { addOrder } from "../../store/reducers/orderReducer";
 
 class CreateOrder extends Component {
-  state = {
-    stockName: "",
-    password: "",
-    priceOfStock: null
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      stockName: "",
+      quantity: ""
+    };
+  }
 
   handleChange = e => {
     this.setState({
@@ -16,7 +20,17 @@ class CreateOrder extends Component {
   handleSubmit = e => {
     e.preventDefault();
 
-    console.log(this.state);
+    //console.log(this.state);
+    this.props.submitOrder({
+      stock: this.state.stockName,
+      quantity: this.state.quantity
+    });
+
+    this.setState({
+      stockName: "",
+      quantity: ""
+    });
+
     // try {
     //   fetch(
     //     "https://cloud.iexapis.com/stable/tops?token=pk_a91fd6cb299c4cacbeaa2d871b59b4ba&symbols=aapl"
@@ -41,22 +55,40 @@ class CreateOrder extends Component {
 
           <div className="input-field">
             <label htmlFor="stockName">Stock Name</label>
-            <input type="text" id="stockName" onChange={this.handleChange} />
+            <input
+              type="text"
+              id="stockName"
+              onChange={this.handleChange}
+              value={this.state.stockName}
+            />
           </div>
 
           <div className="input-field">
             <label htmlFor="quantity">Quantity</label>
-            <input type="number" id="number" onChange={this.handleChange} />
+            <input
+              type="number"
+              id="quantity"
+              onChange={this.handleChange}
+              value={this.state.quantity}
+            />
           </div>
 
           <div className="input-field">
             <button className="btn pink lighten-1 z-depth-0">Submit</button>
           </div>
         </form>
-        Price: {this.state.priceOfStock}
       </div>
     );
   }
 }
 
-export default CreateOrder;
+const mapDispatchToProps = dispatch => {
+  return {
+    submitOrder: order => dispatch(addOrder(order))
+  };
+};
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(CreateOrder);

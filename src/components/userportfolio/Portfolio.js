@@ -1,14 +1,9 @@
 import React from "react";
-import SingleStock from "./SingleStock";
+
+// this shoule be the stansactions aggragated by name
 
 const Portfolio = () => {
-  return (
-    <div>
-      <SingleStock />
-      <SingleStock />
-      <SingleStock />
-    </div>
-  );
+  return <div />;
 };
 
 export default Portfolio;

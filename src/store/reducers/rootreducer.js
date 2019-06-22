@@ -5,7 +5,7 @@ import { combineReducers } from "redux";
 
 const rootReducer = combineReducers({
   auth: authReducer,
-  portfolio: orderReducer
+  orders: orderReducer
 });
 
 export default rootReducer;
