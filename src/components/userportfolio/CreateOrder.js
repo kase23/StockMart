@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { addOrder } from "../../store/reducers/orderReducer";
+import { addOrder } from "../../store/orderStore";
+import axios from "axios";
 
 class CreateOrder extends Component {
   constructor(props) {
@@ -21,15 +22,24 @@ class CreateOrder extends Component {
     e.preventDefault();
 
     //console.log(this.state);
-    this.props.submitOrder({
-      stock: this.state.stockName,
-      quantity: this.state.quantity
-    });
 
-    this.setState({
-      stockName: "",
-      quantity: ""
-    });
+    axios
+      .post("/api/orders/1", {
+        stockName: this.state.stockName,
+        quantity: this.state.quantity
+      })
+      .then(response => {
+        console.log(response);
+        this.props.submitOrder({
+          stock: this.state.stockName,
+          quantity: this.state.quantity
+        });
+        this.setState({
+          stockName: "",
+          quantity: ""
+        });
+      })
+      .catch(err => console.log(err));
 
     // try {
     //   fetch(

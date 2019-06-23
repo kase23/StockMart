@@ -5,7 +5,7 @@ const Portfolio = props => {
   const { transactions } = props;
   return (
     <>
-      Users Stocks:
+      Current Portfolio Value: Users Stocks:
       {transactions ? (
         transactions.map(transaction => {
           return (

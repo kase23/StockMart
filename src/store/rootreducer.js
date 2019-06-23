@@ -1,5 +1,5 @@
-import orderReducer from "./orderReducer";
-import authReducer from "./authReducer";
+import orderReducer from "./orderStore";
+import authReducer from "./authStore";
 
 import { combineReducers } from "redux";
 
