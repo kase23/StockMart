@@ -27,7 +27,6 @@ export const getOrders = () => {
 
 //action is an object
 const orderReducer = (state = initState, action) => {
-  console.log(action);
   switch (action.type) {
     case "ADD_ORDER":
       return {

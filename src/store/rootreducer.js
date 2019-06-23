@@ -4,7 +4,7 @@ import authReducer from "./authStore";
 import { combineReducers } from "redux";
 
 const rootReducer = combineReducers({
-  auth: authReducer,
+  user: authReducer,
   orders: orderReducer
 });
 

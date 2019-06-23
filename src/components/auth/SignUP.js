@@ -63,7 +63,7 @@ class SignUp extends Component {
 
 const mapSignup = state => {
   return {
-    error: state.auth.error
+    error: state.user.error
   };
 };
 
