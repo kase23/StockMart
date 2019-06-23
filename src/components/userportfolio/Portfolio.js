@@ -10,7 +10,7 @@ const Portfolio = props => {
         transactions.map(transaction => {
           return (
             <tr>
-              <td>Stock Name: {transaction.stock}</td>
+              <td>Stock Name: {transaction.stockName}</td>
               <td>Price: {transaction.price}</td>
               <td>Qty: {transaction.quantity}</td>
               <td>Total: {transaction.quantity}</td>

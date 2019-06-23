@@ -6,10 +6,10 @@ class Dashboard extends Component {
   render() {
     return (
       <div className="dashboard container row">
-        <div class="col s6">
+        <div className="col s6">
           <Portfolio />
         </div>
-        <div class="col s6">
+        <div className="col s6">
           <CreateOrder />
         </div>
       </div>

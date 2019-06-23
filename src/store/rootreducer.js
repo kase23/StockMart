@@ -9,3 +9,5 @@ const rootReducer = combineReducers({
 });
 
 export default rootReducer;
+
+export * from "./authStore.js";
