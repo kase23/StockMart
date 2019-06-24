@@ -6,22 +6,25 @@ class Portfolio extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      PortfolioValue: "",
-      stocks: null
+      PortfolioValue: null
     };
   }
   async componentDidMount() {
     await this.props.getStocks(this.props.userid);
-
+    let totalVal = 0;
     this.props.stocks.forEach(element => {
       this.getCurrentPrice(element.stockName).then(res => {
         element["cprice"] = res.currrent;
         element["open"] = res.open;
+        totalVal += res.currrent * element.quantity;
+        element.color = res.open - res.currrent < 0 ? "green" : "red";
+        this.setState({
+          PortfolioValue: totalVal
+        });
       });
     });
-    this.setState({
-      stocks: this.props.stocks
-    });
+
+    //console.log(this.props.stocks);
   }
 
   getCurrentPrice(stock = "AMZN") {
@@ -53,6 +56,7 @@ class Portfolio extends React.Component {
               <th>Stock Name</th>
               <th>Quantity Owned</th>
               <th>Current Value</th>
+              <th>Total Value</th>
             </tr>
           </thead>
           <tbody>
@@ -62,7 +66,8 @@ class Portfolio extends React.Component {
                   <tr>
                     <td>{stock.stockName}</td>
                     <td>{stock.quantity}</td>
-                    <td>{stock.cprice}</td>
+                    <td style={{ color: stock.color }}>{stock.cprice}</td>
+                    <td>{stock.cprice * stock.quantity}</td>
                   </tr>
                 );
               })
