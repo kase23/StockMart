@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { auth } from "../../store/rootreducer";
+import history from "../../history";
 
 class SignIn extends Component {
   state = {
@@ -70,6 +71,7 @@ const mapDispatch = dispatch => {
       const email = evt.target.email.value;
       const password = evt.target.password.value;
       dispatch(auth(email, password));
+      history.push("/");
     }
   };
 };

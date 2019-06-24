@@ -1,6 +1,5 @@
 import axios from "axios";
 import history from "../history";
-import { Redirect } from "react-router-dom";
 
 /**
  * ACTION TYPES
@@ -35,7 +34,6 @@ export const auth = (email, password) => async dispatch => {
   let res;
   try {
     res = await axios.post(`/auth/login`, { email, password });
-    console.log(res);
   } catch (authError) {
     return dispatch(getUser({ error: authError }));
   }
@@ -56,6 +54,7 @@ export const signup = (name, email, password) => async dispatch => {
   }
   try {
     dispatch(getUser(res.data));
+    history.push("/");
   } catch (dispatchOrHistoryErr) {
     console.error(dispatchOrHistoryErr);
   }
@@ -65,7 +64,7 @@ export const logout = () => async dispatch => {
   try {
     await axios.post("/auth/logout");
     dispatch(removeUser());
-    history.push("/login");
+    history.push("/");
   } catch (err) {
     console.error(err);
   }

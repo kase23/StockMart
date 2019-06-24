@@ -20,16 +20,12 @@ class CreateOrder extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-
-    //console.log(this.state);
-
     axios
-      .post("/api/orders/1", {
+      .post(`/api/orders/${this.props.userid}`, {
         stockName: this.state.stockName,
         quantity: this.state.quantity
       })
       .then(response => {
-        console.log(response);
         this.props.submitOrder({
           stock: this.state.stockName,
           quantity: this.state.quantity
@@ -92,6 +88,12 @@ class CreateOrder extends Component {
   }
 }
 
+const mapProps = state => {
+  return {
+    userid: state.user.id
+  };
+};
+
 const mapDispatchToProps = dispatch => {
   return {
     submitOrder: order => dispatch(addOrder(order))
@@ -99,6 +101,6 @@ const mapDispatchToProps = dispatch => {
 };
 
 export default connect(
-  null,
+  mapProps,
   mapDispatchToProps
 )(CreateOrder);

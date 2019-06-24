@@ -7,7 +7,7 @@ const Navbar = props => {
   return (
     <nav>
       <div className="nav-wrapper container">
-        <Link to="/"> StockMart (home) </Link>
+        <Link to="/"> StockMart</Link>
         {props.isLoggedIn ? <SignedInLinks /> : <SignedOutLinks />}
       </div>
     </nav>

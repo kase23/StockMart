@@ -4,7 +4,7 @@ import { getOrders } from "../../store/orderStore";
 
 class Transactions extends React.Component {
   componentDidMount() {
-    this.props.getOrders();
+    this.props.getOrders(this.props.userid);
   }
 
   render() {
@@ -33,7 +33,8 @@ class Transactions extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    transactions: state.orders.orders
+    transactions: state.orders.orders,
+    userid: state.user.id
   };
 };
 

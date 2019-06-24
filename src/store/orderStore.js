@@ -16,9 +16,9 @@ const gotOrdersFromServer = orders => ({
   orders
 });
 
-export const getOrders = () => {
+export const getOrders = userid => {
   return dispatch => {
-    return axios.get("api/orders").then(result => {
+    return axios.get(`api/orders/${userid}`).then(result => {
       const orders = result.data;
       dispatch(gotOrdersFromServer(orders));
     });
