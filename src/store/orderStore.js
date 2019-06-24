@@ -1,4 +1,5 @@
 import axios from "axios";
+import history from "../history";
 
 const initState = {
   orders: [],
@@ -9,6 +10,7 @@ export const addOrder = order => {
   //return { type: "ADD_ORDER", payload: order };
   return (dispatch, getState) => {
     dispatch({ type: "ADD_ORDER", order });
+    history.push("/transactions");
   };
 };
 

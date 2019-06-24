@@ -26,16 +26,22 @@ class Portfolio extends React.Component {
 
     //console.log(this.props.stocks);
   }
+  // for updating portfolio page after order..
+  // componentDidUpdate(){
+  //npm install deep
+  //   //if old props != new props{
+  //   // run props function
+  //   }
+  // }
 
-  getCurrentPrice(stock = "AMZN") {
+  getCurrentPrice(stock) {
     const apikey = "pk_a91fd6cb299c4cacbeaa2d871b59b4ba";
     const base = "https://cloud.iexapis.com/stable/stock/";
     return axios.get(`${base}${stock}/quote?token=${apikey}`).then(res => {
-      const openprice = parseFloat(res.data.open);
-      const cprice = parseFloat(res.data.latestPrice);
+      const openprice = parseFloat(res.data.open).toFixed(2);
+      const cprice = parseFloat(res.data.latestPrice).toFixed(2);
       return { open: openprice, currrent: cprice };
     });
-    //need to have it to only return when the promises are resolved
   }
 
   render() {
