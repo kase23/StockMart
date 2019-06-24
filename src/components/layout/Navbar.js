@@ -6,8 +6,8 @@ import SignedOutLinks from "./SignedOutLinks";
 const Navbar = props => {
   return (
     <nav>
-      <div className="nav-wrapper container">
-        <Link to="/"> StockMart</Link>
+      <div className="nav-wrapper container flow-text">
+        <Link to="/">StockMart</Link>
         {props.isLoggedIn ? <SignedInLinks /> : <SignedOutLinks />}
       </div>
     </nav>

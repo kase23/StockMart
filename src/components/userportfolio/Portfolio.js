@@ -6,31 +6,44 @@ class Portfolio extends React.Component {
   componentDidMount() {
     this.props.getStocks(this.props.userid);
   }
+  componentDidUpdate() {
+    this.props.getStocks(this.props.userid);
+  }
   render() {
     const stocks = this.props.stocks;
-    console.log(stocks);
     return (
-      <>
-        <ul>
-          <li>Hello {this.props.name}!</li>
-          <li>Current Portfolio Value: </li>
-          <li>Users Stocks:</li>
-        </ul>
-        {stocks ? (
-          stocks.map(stock => {
-            return (
-              <tr>
-                <td>Stock Name: {stock.stockName}</td>
-                {/* <td>Price: {transaction.price}</td>
-              <td>Qty: {transaction.quantity}</td>
-              <td>Total: {transaction.quantity}</td> */}
-              </tr>
-            );
-          })
-        ) : (
-          <p>Loading...</p>
-        )}
-      </>
+      <div className="container">
+        <div className="flow-text">
+          <ul>
+            <li>Hello {this.props.name}!</li>
+            <li>Current Portfolio Value: </li>
+          </ul>
+        </div>
+
+        <table>
+          <thead>
+            <tr>
+              <th>Stock Name</th>
+              <th>Quantity Owned</th>
+              <th>Current Value</th>
+            </tr>
+          </thead>
+          <tbody>
+            {stocks ? (
+              stocks.map(stock => {
+                return (
+                  <tr>
+                    <td>{stock.stockName}</td>
+                    <td>{stock.quantity}</td>
+                  </tr>
+                );
+              })
+            ) : (
+              <p>Loading...</p>
+            )}
+          </tbody>
+        </table>
+      </div>
     );
   }
 }
