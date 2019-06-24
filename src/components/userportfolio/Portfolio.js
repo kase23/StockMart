@@ -22,7 +22,7 @@ class Portfolio extends React.Component {
     this.props.getStocks(this.props.userid);
   }
 
-  async getCurrentPrice(stock = "AMZN") {
+  getCurrentPrice(stock = "AMZN") {
     const apikey = "pk_a91fd6cb299c4cacbeaa2d871b59b4ba";
     const base = "https://cloud.iexapis.com/stable/stock/";
     axios.get(`${base}${stock}/quote?token=${apikey}`).then(res => {
@@ -31,6 +31,7 @@ class Portfolio extends React.Component {
       console.log(openprice, cprice);
       return { open: openprice, currrent: cprice };
     });
+    //need to have it to only return when the promises are resolved
     return "hii";
   }
 
