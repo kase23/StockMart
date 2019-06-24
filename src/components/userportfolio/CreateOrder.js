@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import axios from "axios";
 import { me } from "../../store/authStore";
-
+import { getStocks } from "../../store/orderStore";
 class CreateOrder extends Component {
   constructor(props) {
     super(props);
@@ -62,6 +62,7 @@ class CreateOrder extends Component {
           })
           .then(() => {
             this.props.updateUser();
+            this.props.getStocks(this.props.userid);
           })
           .catch(err => console.log(err));
         this.setState({
@@ -114,7 +115,8 @@ const mapProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    updateUser: () => dispatch(me())
+    updateUser: () => dispatch(me()),
+    getStocks: userid => dispatch(getStocks(userid))
   };
 };
 

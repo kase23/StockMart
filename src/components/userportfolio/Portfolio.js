@@ -6,37 +6,38 @@ class Portfolio extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      PortfolioValue: ""
+      PortfolioValue: "",
+      stocks: null
     };
   }
   async componentDidMount() {
     await this.props.getStocks(this.props.userid);
-    // this.setState({
-    //   stocks: this.props.stocks
-    // });
+
     this.props.stocks.forEach(element => {
-      this.getCurrentPrice(element.stockName).then(res => console.log(res));
+      this.getCurrentPrice(element.stockName).then(res => {
+        element["cprice"] = res.currrent;
+        element["open"] = res.open;
+      });
     });
-  }
-  componentDidUpdate() {
-    this.props.getStocks(this.props.userid);
+    this.setState({
+      stocks: this.props.stocks
+    });
   }
 
   getCurrentPrice(stock = "AMZN") {
     const apikey = "pk_a91fd6cb299c4cacbeaa2d871b59b4ba";
     const base = "https://cloud.iexapis.com/stable/stock/";
-    axios.get(`${base}${stock}/quote?token=${apikey}`).then(res => {
+    return axios.get(`${base}${stock}/quote?token=${apikey}`).then(res => {
       const openprice = parseFloat(res.data.open);
       const cprice = parseFloat(res.data.latestPrice);
-      console.log(openprice, cprice);
       return { open: openprice, currrent: cprice };
     });
     //need to have it to only return when the promises are resolved
-    return "hii";
   }
 
   render() {
     const stocks = this.props.stocks;
+
     return (
       <div className="container">
         <div className="flow-text">
@@ -61,7 +62,7 @@ class Portfolio extends React.Component {
                   <tr>
                     <td>{stock.stockName}</td>
                     <td>{stock.quantity}</td>
-                    {/* <td>{this.getCurrentPrice(stock.stockName)}</td> */}
+                    <td>{stock.cprice}</td>
                   </tr>
                 );
               })
