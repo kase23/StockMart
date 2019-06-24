@@ -2,8 +2,6 @@ import React from "react";
 import { connect } from "react-redux";
 import { getStocks } from "../../store/orderStore";
 import axios from "axios";
-import { watchFile } from "fs";
-import { async } from "q";
 class Portfolio extends React.Component {
   constructor(props) {
     super(props);
@@ -13,20 +11,27 @@ class Portfolio extends React.Component {
   }
   async componentDidMount() {
     await this.props.getStocks(this.props.userid);
+    // this.setState({
+    //   stocks: this.props.stocks
+    // });
+    this.props.stocks.forEach(element => {
+      this.getCurrentPrice(element.stockName).then(res => console.log(res));
+    });
   }
   componentDidUpdate() {
     this.props.getStocks(this.props.userid);
   }
 
-  getCurrentPrice(stock = "AMZN") {
+  async getCurrentPrice(stock = "AMZN") {
     const apikey = "pk_a91fd6cb299c4cacbeaa2d871b59b4ba";
     const base = "https://cloud.iexapis.com/stable/stock/";
     axios.get(`${base}${stock}/quote?token=${apikey}`).then(res => {
       const openprice = parseFloat(res.data.open);
       const cprice = parseFloat(res.data.latestPrice);
-      //console.log(openprice, cprice);
+      console.log(openprice, cprice);
       return { open: openprice, currrent: cprice };
     });
+    return "hii";
   }
 
   render() {
