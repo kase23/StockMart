@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { addOrder } from "../../store/orderStore";
 import axios from "axios";
+import { me } from "../../store/authStore";
 
 class CreateOrder extends Component {
   constructor(props) {
@@ -21,14 +22,16 @@ class CreateOrder extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    const apikey = "pk_a91fd6cb299c4cacbeaa2d871b59b4ba";
     const stock = this.state.stockName.toUpperCase();
+    const quantity = this.state.quantity;
+
+    const apikey = "pk_a91fd6cb299c4cacbeaa2d871b59b4ba";
     const base = "https://cloud.iexapis.com/stable/stock/";
     axios
       .get(`${base}${stock}/price?token=${apikey}`)
       .then(res => {
         const price = parseFloat(res.data);
-        const totalPrice = this.state.quantity * price;
+        const totalPrice = quantity * price;
         if (this.props.userCash - totalPrice > 0) {
           this.submitOrdertodb(price);
         } else {
@@ -45,7 +48,7 @@ class CreateOrder extends Component {
   submitOrdertodb = price => {
     axios
       .post(`/api/orders/${this.props.userid}`, {
-        stockName: this.state.stockName,
+        stockName: this.state.stockName.toUpperCase(),
         quantity: this.state.quantity,
         price: price,
         total: this.state.quantity * price
@@ -55,7 +58,11 @@ class CreateOrder extends Component {
           .put(`/api/users/${this.props.userid}`, {
             total: this.state.quantity * price
           })
+          .then(() => {
+            this.props.updateUser();
+          })
           .catch(err => console.log(err));
+
         this.setState({
           stockName: "",
           quantity: ""
@@ -109,7 +116,7 @@ const mapProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    submitOrder: order => dispatch(addOrder(order))
+    updateUser: () => dispatch(me())
   };
 };
 
