@@ -34,7 +34,8 @@ class Transactions extends React.Component {
 const mapStateToProps = state => {
   return {
     transactions: state.orders.orders,
-    userid: state.user.id
+    userid: state.user.id,
+    name: state.user.name
   };
 };
 

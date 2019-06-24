@@ -1,7 +1,8 @@
 import axios from "axios";
 
 const initState = {
-  orders: []
+  orders: [],
+  stocks: []
 };
 
 export const addOrder = order => {
@@ -25,6 +26,20 @@ export const getOrders = userid => {
   };
 };
 
+const gotStocksFromServer = stocks => ({
+  type: "FETCH_STOCKS",
+  stocks
+});
+
+export const getStocks = userid => {
+  return dispatch => {
+    return axios.get(`api/orders/stocks/${userid}`).then(result => {
+      const stocks = result.data;
+      dispatch(gotStocksFromServer(stocks));
+    });
+  };
+};
+
 //action is an object
 const orderReducer = (state = initState, action) => {
   switch (action.type) {
@@ -37,6 +52,11 @@ const orderReducer = (state = initState, action) => {
       return {
         ...state,
         orders: action.orders
+      };
+    case "FETCH_STOCKS":
+      return {
+        ...state,
+        stocks: action.stocks
       };
     default:
       return state;

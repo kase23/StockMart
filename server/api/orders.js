@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const { User, Order } = require("../db/models");
+const sequelize = require("sequelize");
 // const {
 //   isLoggedIn,
 //   isAdmin,
@@ -23,6 +24,22 @@ router.get("/:userid", async (req, res, next) => {
       where: { userId: req.params.userid }
     });
     res.json(orders);
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.get("/stocks/:userid", async (req, res, next) => {
+  try {
+    const stocks = await Order.findAll({
+      where: { userId: req.params.userid },
+      attributes: [
+        "stockName",
+        [sequelize.fn("SUM", sequelize.col("quantity")), "quantity"]
+      ],
+      group: ["stockName"]
+    });
+    res.json(stocks);
   } catch (err) {
     next(err);
   }
