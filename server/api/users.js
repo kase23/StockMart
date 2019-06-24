@@ -13,6 +13,21 @@ router.get("/", async (req, res, next) => {
     next(err);
   }
 });
+
+router.put("/:userId", async (req, res, next) => {
+  const { total } = req.body;
+  try {
+    const user = await User.findByPk(req.params.userId);
+    if (user) {
+      const newMoney = user.money - total;
+      await user.update({ money: newMoney });
+    }
+    res.json(user);
+  } catch (err) {
+    next(err);
+  }
+});
+
 //find in /auth
 // router.post("/signup", async (req, res, next) => {
 //   try {

@@ -2,10 +2,7 @@ const router = require("express").Router();
 const { User, Order } = require("../db/models");
 const sequelize = require("sequelize");
 // const {
-//   isLoggedIn,
-//   isAdmin,
 //   isLoggedInAsSelf
-//   // isLoggedInEditReview
 // } = require("./userTypeChecker");
 module.exports = router;
 
@@ -48,7 +45,7 @@ router.get("/stocks/:userid", async (req, res, next) => {
 //post orders
 //isLoggedInAsSelf to protect?
 router.post("/:userId", async (req, res, next) => {
-  const { stockName, quantity, price = 10, total = 10 } = req.body;
+  const { stockName, quantity, price, total } = req.body;
   try {
     const order = await Order.create({
       stockName,

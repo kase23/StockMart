@@ -11,10 +11,6 @@ User.getUserTransactions = id => {
   });
 };
 
-// const getUserTransactions = await User.findAll({
-//   include: [{ model: Owner }]
-// });
-
 module.exports = {
   User,
   Order

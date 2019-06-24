@@ -32,7 +32,7 @@ class Transactions extends React.Component {
             {transactions ? (
               transactions.map(transaction => {
                 return (
-                  <tr>
+                  <tr key={transaction.id}>
                     <td>{transaction.stockName}</td>
                     <td>{transaction.quantity}</td>
                     <td>{transaction.price}</td>

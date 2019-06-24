@@ -8,10 +8,11 @@ class CreateOrder extends Component {
     super(props);
     this.state = {
       stockName: "",
-      quantity: ""
+      quantity: "",
+      error: null
     };
   }
-
+  componentDidMount() {}
   handleChange = e => {
     this.setState({
       [e.target.id]: e.target.value
@@ -20,37 +21,47 @@ class CreateOrder extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
+    const apikey = "pk_a91fd6cb299c4cacbeaa2d871b59b4ba";
+    const stock = this.state.stockName.toUpperCase();
+    const base = "https://cloud.iexapis.com/stable/stock/";
+    axios
+      .get(`${base}${stock}/price?token=${apikey}`)
+      .then(res => {
+        const price = parseFloat(res.data);
+        const totalPrice = this.state.quantity * price;
+        if (this.props.userCash - totalPrice > 0) {
+          this.submitOrdertodb(price);
+        } else {
+          this.setState({
+            error: "you do not have enough funds to complete this order"
+          });
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+
+  submitOrdertodb = price => {
     axios
       .post(`/api/orders/${this.props.userid}`, {
         stockName: this.state.stockName,
-        quantity: this.state.quantity
+        quantity: this.state.quantity,
+        price: price,
+        total: this.state.quantity * price
       })
-      .then(response => {
-        this.props.submitOrder({
-          stock: this.state.stockName,
-          quantity: this.state.quantity
-        });
+      .then(() => {
+        axios
+          .put(`/api/users/${this.props.userid}`, {
+            total: this.state.quantity * price
+          })
+          .catch(err => console.log(err));
         this.setState({
           stockName: "",
           quantity: ""
         });
       })
       .catch(err => console.log(err));
-
-    // try {
-    //   fetch(
-    //     "https://cloud.iexapis.com/stable/tops?token=pk_a91fd6cb299c4cacbeaa2d871b59b4ba&symbols=aapl"
-    //   )
-    //     .then(response => response.json())
-    //     .then(data => {
-    //       const price = data[0].lastSalePrice;
-    //       this.setState({
-    //         priceOfStock: price
-    //       });
-    //     });
-    // } catch (error) {
-    //   console.error(error);
-    // }
   };
 
   render() {
@@ -82,6 +93,7 @@ class CreateOrder extends Component {
           <div className="input-field">
             <button className="btn pink lighten-1 z-depth-0">Submit</button>
           </div>
+          <div>{this.state.error}</div>
         </form>
       </div>
     );
@@ -90,7 +102,8 @@ class CreateOrder extends Component {
 
 const mapProps = state => {
   return {
-    userid: state.user.id
+    userid: state.user.id,
+    userCash: state.user.money
   };
 };
 
