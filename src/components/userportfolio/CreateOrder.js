@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { addOrder } from "../../store/orderStore";
 import axios from "axios";
 import { me } from "../../store/authStore";
 
@@ -24,7 +23,7 @@ class CreateOrder extends Component {
     e.preventDefault();
     const stock = this.state.stockName.toUpperCase();
     const quantity = this.state.quantity;
-
+    //public api key for IEX cloud API
     const apikey = "pk_a91fd6cb299c4cacbeaa2d871b59b4ba";
     const base = "https://cloud.iexapis.com/stable/stock/";
     axios
@@ -42,6 +41,9 @@ class CreateOrder extends Component {
       })
       .catch(err => {
         console.log(err);
+        this.setState({
+          error: "Incorrect Ticker Symbol"
+        });
       });
   };
 
@@ -62,7 +64,6 @@ class CreateOrder extends Component {
             this.props.updateUser();
           })
           .catch(err => console.log(err));
-
         this.setState({
           stockName: "",
           quantity: ""
@@ -76,7 +77,6 @@ class CreateOrder extends Component {
       <div className="container">
         <form className="white" onSubmit={this.handleSubmit}>
           <h5 className="grey-text text-darken-3">Purchase Stock</h5>
-
           <div className="input-field">
             <label htmlFor="stockName">Stock Name</label>
             <input
@@ -86,7 +86,6 @@ class CreateOrder extends Component {
               value={this.state.stockName}
             />
           </div>
-
           <div className="input-field">
             <label htmlFor="quantity">Quantity</label>
             <input
@@ -96,7 +95,6 @@ class CreateOrder extends Component {
               value={this.state.quantity}
             />
           </div>
-
           <div className="input-field">
             <button className="btn pink lighten-1 z-depth-0">Submit</button>
           </div>
