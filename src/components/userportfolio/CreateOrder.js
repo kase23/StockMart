@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import axios from "axios";
 import { me } from "../../store/authStore";
 import { getStocks } from "../../store/orderStore";
+import history from "../../history";
 class CreateOrder extends Component {
   constructor(props) {
     super(props);
@@ -69,6 +70,7 @@ class CreateOrder extends Component {
           stockName: "",
           quantity: ""
         });
+        history.push("/transactions");
       })
       .catch(err => console.log(err));
   };
