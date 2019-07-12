@@ -17,22 +17,15 @@ class Portfolio extends React.Component {
         element["cprice"] = res.currrent;
         element["open"] = res.open;
         totalVal += res.currrent * element.quantity;
-        element.color = res.open - res.currrent < 0 ? "green" : "red";
+        let diff = res.open - res.currrent;
+        console.log(diff);
+        element.color = diff < -0.5 ? "green" : diff > 0.5 ? "red" : "gray";
         this.setState({
           PortfolioValue: totalVal
         });
       });
     });
-
-    //console.log(this.props.stocks);
   }
-  // for updating portfolio page after order..
-  // componentDidUpdate(){
-  //npm install deep
-  //   //if old props != new props{
-  //   // run props function
-  //   }
-  // }
 
   getCurrentPrice(stock) {
     const apikey = "pk_a91fd6cb299c4cacbeaa2d871b59b4ba";

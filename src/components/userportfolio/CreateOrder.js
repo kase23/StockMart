@@ -27,6 +27,7 @@ class CreateOrder extends Component {
     //public api key for IEX cloud API
     const apikey = "pk_a91fd6cb299c4cacbeaa2d871b59b4ba";
     const base = "https://cloud.iexapis.com/stable/stock/";
+    // get the price of the stock to see if there are enough funds for the quantity needed
     axios
       .get(`${base}${stock}/price?token=${apikey}`)
       .then(res => {
